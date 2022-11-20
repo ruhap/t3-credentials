@@ -36,7 +36,4 @@ export const authRouter = router({
         result: result.email,
       };
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
 });
