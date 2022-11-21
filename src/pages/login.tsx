@@ -17,10 +17,7 @@ const Login: NextPage = () => {
   } = useForm<ILogin>();
 
   const onSubmit: SubmitHandler<ILogin> = async (data) => {
-    try {
-      await signIn("credentials", { ...data });
-      router.push("/dashboard");
-    } catch (e) {}
+    await signIn("credentials", { ...data, callbackUrl: "/dashboard" });
   };
 
   return (

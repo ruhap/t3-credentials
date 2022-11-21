@@ -4,12 +4,17 @@ import { getServerAuthSession } from "@server/common/get-server-auth-session";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 
 import { trpc } from "@utils/trpc";
 
 const Register: NextPage = () => {
   const router = useRouter();
-  const mutation = trpc.auth.register.useMutation();
+  const [errorMessage, setErrorMessage] = useState<string | undefined>();
+  const mutation = trpc.auth.register.useMutation({
+    onError: (e) => setErrorMessage(e.message),
+    onSuccess: () => router.push("/login"),
+  });
 
   const {
     register,
@@ -18,12 +23,9 @@ const Register: NextPage = () => {
   } = useForm<IRegister>();
 
   const onSubmit: SubmitHandler<IRegister> = async (data) => {
-    const result = await mutation.mutateAsync(data);
-
-    if (result.status === 201) {
-      router.push("/login");
-    }
+    await mutation.mutateAsync(data);
   };
+
   return (
     <>
       <Head>
@@ -32,15 +34,25 @@ const Register: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="align-center flex min-h-screen flex-col items-center justify-center gap-1">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        {errorMessage ? (
+          <p className="text-center text-red-600">{errorMessage}</p>
+        ) : null}
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-2">
+          <label>Username</label>
           <input
             className="rounded border py-1 px-4"
             type="username"
             {...register("username", { required: true })}
           />
           {errors.username && <span>This field is required</span>}
-          <input type="text" {...register("email", { required: true })} />
+          <label>Email</label>
+          <input
+            className="rounded border py-1 px-4"
+            type="text"
+            {...register("email", { required: true })}
+          />
           {errors.email && <span>This field is required</span>}
+          <label>Password</label>
           <input
             className="rounded border py-1 px-4"
             type="password"
