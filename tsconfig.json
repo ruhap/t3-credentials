@@ -17,11 +17,11 @@
     "noUncheckedIndexedAccess": true,
     "baseUrl": "src/",
     "paths": {
-      "@components*": ["components/*"],
-      "@pages*": ["pages/*"],
-      "@server*": ["server/*"],
-      "@utils*": ["utils/*"],
-      "@validation*": ["validation/*"]
+      "@/components/*": ["components/*"],
+      "@/pages/*": ["pages/*"],
+      "@/server/*": ["server/*"],
+      "@/utils/*": ["utils/*"],
+      "@/validation/*": ["validation/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],

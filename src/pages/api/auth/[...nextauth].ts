@@ -1,9 +1,10 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
+
 import { env } from "../../../env/server.mjs";
 import { prisma } from "../../../server/db/client";
-import { loginSchema } from "@validation/auth";
+import { loginSchema } from "@/validation/auth";
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
